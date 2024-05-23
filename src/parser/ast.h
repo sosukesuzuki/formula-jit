@@ -1,6 +1,7 @@
 #include <memory>
 
 namespace formula {
+
 class ASTNode {
 public:
     virtual ~ASTNode() = default;
@@ -23,4 +24,5 @@ public:
     BinaryOpNode(std::unique_ptr<ASTNode> left, char op, std::unique_ptr<ASTNode> right);
     void print() const override;
 };
+
 } // formula

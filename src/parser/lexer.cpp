@@ -5,12 +5,14 @@
 #include <string>
 
 namespace formula {
+
 Lexer::Lexer(const std::string& text)
     : text(text)
     , pos(0)
     , current_char(text[0])
 {
 }
+
 void Lexer::advance()
 {
     pos++;
@@ -19,6 +21,7 @@ void Lexer::advance()
     else
         current_char = '\0';
 }
+
 std::vector<Token> Lexer::tokenize()
 {
     std::vector<Token> tokens;
@@ -52,6 +55,7 @@ std::vector<Token> Lexer::tokenize()
     }
     return tokens;
 }
+
 double Lexer::number()
 {
     std::ostringstream result;
@@ -61,4 +65,5 @@ double Lexer::number()
     }
     return std::stod(result.str());
 }
+
 } // formlura
