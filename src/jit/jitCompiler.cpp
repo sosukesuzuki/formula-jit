@@ -11,6 +11,13 @@ JITCompiler::JITCompiler()
 {
 }
 
+JITCompiler::~JITCompiler()
+{
+    for (double* value : allocatedValues) {
+        delete value;
+    }
+}
+
 JITCompiler::Func JITCompiler::compile(const BytecodeProgram& program)
 {
     using namespace Xbyak;
@@ -24,7 +31,7 @@ JITCompiler::Func JITCompiler::compile(const BytecodeProgram& program)
             double* value = new double;
             std::memcpy(value, ip, sizeof(double));
             ip += sizeof(double);
-
+            allocatedValues.push_back(value);
             mov(rax, (size_t)value);
             movsd(xmm0, ptr[rax]);
             sub(rsp, 8);
