@@ -2,6 +2,7 @@
 #include "../external/xbyak/xbyak.h"
 #include "../vm/bytecodeCompiler.h"
 #include <cstring>
+#include <fstream>
 
 namespace formula {
 
@@ -16,15 +17,16 @@ JITCompiler::Func JITCompiler::compile(const BytecodeProgram& program)
 
     const uint8_t* ip = program.data();
 
-    std::vector<double> stack;
     while (true) {
         Bytecode opcode = static_cast<Bytecode>(*ip++);
         switch (opcode) {
         case Bytecode::Push: {
-            double value;
-            std::memcpy(&value, ip, sizeof(double));
+            double* value = new double;
+            std::memcpy(value, ip, sizeof(double));
             ip += sizeof(double);
-            mov(rax, (size_t)&value);
+
+            mov(rax, (size_t)value);
+            movsd(xmm0, ptr[rax]);
             sub(rsp, 8);
             movsd(ptr[rsp], xmm0);
             break;
@@ -37,10 +39,11 @@ JITCompiler::Func JITCompiler::compile(const BytecodeProgram& program)
             break;
         }
         case Bytecode::Sub: {
-            movsd(xmm0, ptr[rsp]);
-            add(rsp, 8);
-            subsd(xmm0, ptr[rsp]);
-            movsd(ptr[rsp], xmm0);
+            movsd(xmm1, ptr[rsp]); 
+            add(rsp, 8); 
+            movsd(xmm0, ptr[rsp]); 
+            subsd(xmm0, xmm1); 
+            movsd(ptr[rsp], xmm0); 
             break;
         }
         case Bytecode::Mul: {
@@ -51,10 +54,11 @@ JITCompiler::Func JITCompiler::compile(const BytecodeProgram& program)
             break;
         }
         case Bytecode::Div: {
-            movsd(xmm0, ptr[rsp]);
-            add(rsp, 8);
-            divsd(xmm0, ptr[rsp]);
-            movsd(ptr[rsp], xmm0);
+            movsd(xmm1, ptr[rsp]); 
+            add(rsp, 8); 
+            movsd(xmm0, ptr[rsp]); 
+            divsd(xmm0, xmm1); 
+            movsd(ptr[rsp], xmm0); 
             break;
         }
         case Bytecode::End: {
@@ -70,8 +74,21 @@ JITCompiler::Func JITCompiler::compile(const BytecodeProgram& program)
     }
 
 end:
+    // 生成されたコードを取得
     JITCompiler::Func fn = getCode<JITCompiler::Func>();
+
+    // コードのバイトサイズを取得
+    size_t codeSize = getSize();
+
+    // コードをバイナリファイルに保存
+    std::ofstream outFile("jit_code.bin", std::ios::binary);
+    if (!outFile) {
+        throw std::runtime_error("Failed to open file for writing.");
+    }
+    outFile.write(reinterpret_cast<const char*>(getCode()), codeSize);
+    outFile.close();
+
     return fn;
 }
 
-} // formula
+} // namespace formula
