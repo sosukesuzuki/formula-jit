@@ -4,4 +4,12 @@ project(Formula
         VERSION 1.0
         DESCRIPTION "The Formula Interpreter")
 
-add_executable(formula src/formula.cpp)
+add_executable(formula
+               src/formula.cpp
+               src/parser/ast.cpp
+               src/parser/lexer.cpp
+               src/parser/parser.cpp
+               src/vm/bytecodeCompiler.cpp
+               src/vm/bytecodeInterpreter.cpp)
+
+target_include_directories(formula PRIVATE src)
