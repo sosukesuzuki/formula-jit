@@ -74,19 +74,7 @@ JITCompiler::Func JITCompiler::compile(const BytecodeProgram& program)
     }
 
 end:
-    // 生成されたコードを取得
     JITCompiler::Func fn = getCode<JITCompiler::Func>();
-
-    // コードのバイトサイズを取得
-    size_t codeSize = getSize();
-
-    // コードをバイナリファイルに保存
-    std::ofstream outFile("jit_code.bin", std::ios::binary);
-    if (!outFile) {
-        throw std::runtime_error("Failed to open file for writing.");
-    }
-    outFile.write(reinterpret_cast<const char*>(getCode()), codeSize);
-    outFile.close();
 
     return fn;
 }
