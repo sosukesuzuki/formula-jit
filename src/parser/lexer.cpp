@@ -30,7 +30,6 @@ std::vector<Token> Lexer::tokenize()
             advance();
         else if (isdigit(current_char)) {
             tokens.push_back({ TokenType::Number, number() });
-            advance();
         } else if (current_char == '+') {
             tokens.push_back({ TokenType::Plus, 0 });
             advance();
