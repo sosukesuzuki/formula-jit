@@ -2,9 +2,6 @@
 
 ## Build
 
-```
-mkdir build
-cd build
-cmake ..
-make
+```sh
+./scripts/build.sh # --debug
 ```
