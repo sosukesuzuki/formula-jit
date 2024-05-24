@@ -39,11 +39,11 @@ JITCompiler::Func JITCompiler::compile(const BytecodeProgram& program)
             break;
         }
         case Bytecode::Sub: {
-            movsd(xmm1, ptr[rsp]); 
-            add(rsp, 8); 
-            movsd(xmm0, ptr[rsp]); 
-            subsd(xmm0, xmm1); 
-            movsd(ptr[rsp], xmm0); 
+            movsd(xmm1, ptr[rsp]);
+            add(rsp, 8);
+            movsd(xmm0, ptr[rsp]);
+            subsd(xmm0, xmm1);
+            movsd(ptr[rsp], xmm0);
             break;
         }
         case Bytecode::Mul: {
@@ -54,11 +54,11 @@ JITCompiler::Func JITCompiler::compile(const BytecodeProgram& program)
             break;
         }
         case Bytecode::Div: {
-            movsd(xmm1, ptr[rsp]); 
-            add(rsp, 8); 
-            movsd(xmm0, ptr[rsp]); 
-            divsd(xmm0, xmm1); 
-            movsd(ptr[rsp], xmm0); 
+            movsd(xmm1, ptr[rsp]);
+            add(rsp, 8);
+            movsd(xmm0, ptr[rsp]);
+            divsd(xmm0, xmm1);
+            movsd(ptr[rsp], xmm0);
             break;
         }
         case Bytecode::End: {
