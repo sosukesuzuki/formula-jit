@@ -1,3 +1,4 @@
+#include "jit/jitCompiler.h"
 #include "parser/lexer.h"
 #include "parser/parser.h"
 #include "vm/bytecodeCompiler.h"
@@ -47,7 +48,10 @@ int main(int argc, char* argv[])
     auto bytecode = compiler.compile(ast);
 
     if (useJIT) {
-        std::cout << "JIT Compiler hasn't been implemented yet" << std::endl;
+        formula::JITCompiler compiler;
+        formula::JITCompiler::Func fn = compiler.compile(bytecode);
+        double result = fn();
+        std::cout << result << std::endl;
     } else {
         formula::BytecodeInterpreter interpreter;
         double result = interpreter.execute(bytecode);

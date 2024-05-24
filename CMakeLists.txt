@@ -10,6 +10,7 @@ add_executable(formula
                src/parser/lexer.cpp
                src/parser/parser.cpp
                src/vm/bytecodeCompiler.cpp
-               src/vm/bytecodeInterpreter.cpp)
+               src/vm/bytecodeInterpreter.cpp
+               src/jit/jitCompiler.cpp)
 
 target_include_directories(formula PRIVATE src)
