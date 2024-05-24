@@ -3,7 +3,7 @@
 
 namespace formula {
 
-formula::BytecodeProgram BytecodeCompiler::compile(const std::unique_ptr<formula::ASTNode>& node, formula::BytecodeProgram& program)
+formula::BytecodeProgram BytecodeCompiler::compile(const std::unique_ptr<formula::ASTNode>& node)
 {
     BytecodeProgram program;
     compile_node(node, program);

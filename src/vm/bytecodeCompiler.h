@@ -1,6 +1,6 @@
 #pragma once
 
-#include "parser/ast.h"
+#include "../parser/ast.h"
 #include <cstdint>
 #include <memory>
 #include <vector>
@@ -20,7 +20,7 @@ using BytecodeProgram = std::vector<uint8_t>;
 
 class BytecodeCompiler {
 public:
-    BytecodeProgram compile(const std::unique_ptr<formula::ASTNode>& node, BytecodeProgram& program);
+    BytecodeProgram compile(const std::unique_ptr<formula::ASTNode>& node);
 
 private:
     void compile_node(const std::unique_ptr<ASTNode>& node, BytecodeProgram& program);
