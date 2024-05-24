@@ -1,3 +1,5 @@
+#pragma once
+
 #include "parser/ast.h"
 #include <cstdint>
 #include <memory>
