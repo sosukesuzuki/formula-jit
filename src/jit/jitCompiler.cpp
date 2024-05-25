@@ -7,7 +7,7 @@
 namespace formula {
 
 JITCompiler::JITCompiler()
-    : CodeGenerator(4096)
+    : CodeGenerator(4096, Xbyak::AutoGrow)
 {
 }
 
@@ -81,6 +81,7 @@ JITCompiler::Func JITCompiler::compile(const BytecodeProgram& program)
     }
 
 end:
+    ready();
     JITCompiler::Func fn = getCode<JITCompiler::Func>();
 
     return fn;
