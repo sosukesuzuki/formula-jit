@@ -40,3 +40,10 @@ You can enable JIT compilation with the `--useJIT` command-line option.
 ```
 echo '1 + 1' | ./build/formula --useJIT
 ```
+
+You can specify how many times the calculation should be repeated using the `--repeated=100` command-line option. In the following example, the expression `1 + 1` is compiled and then executed 100 times. The output is the sum of the results from each execution.
+
+```
+echo '1 + 1' | ./build/formula --repeated=100
+# the result is `200`
+```

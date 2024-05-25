@@ -5,6 +5,7 @@
 #include "vm/bytecodeInterpreter.h"
 #include <fstream>
 #include <iostream>
+#include <regex>
 #include <sstream>
 #include <string>
 
@@ -20,12 +21,19 @@
 int main(int argc, char* argv[])
 {
     bool useJIT = false;
+    int repeated = 1;
     std::string expression;
 
     for (int i = 1; i < argc; ++i) {
-        if (std::string(argv[i]) == "--useJIT")
+        std::string arg = std::string(argv[i]);
+        if (arg == "--useJIT")
             useJIT = true;
-        else {
+        else if (arg.starts_with("--repeated=")) {
+            std::regex pattern(R"(--repeated=(\d+))");
+            std::smatch matches;
+            if (std::regex_match(arg, matches, pattern))
+                repeated = std::stoi(matches[1].str());
+        } else {
             std::ifstream file(argv[i]);
             if (file.is_open()) {
                 std::stringstream buffer;
@@ -50,11 +58,15 @@ int main(int argc, char* argv[])
     if (useJIT) {
         formula::JITCompiler compiler;
         formula::JITCompiler::Func fn = compiler.compile(bytecode);
-        double result = fn();
+        double result = 0;
+        for (int i = 0; i < repeated; i++)
+            result += fn();
         std::cout << result << std::endl;
     } else {
         formula::BytecodeInterpreter interpreter;
-        double result = interpreter.execute(bytecode);
+        double result = 0;
+        for (int i = 0; i < repeated; i++)
+            result += interpreter.execute(bytecode);
         std::cout << result << std::endl;
     }
 

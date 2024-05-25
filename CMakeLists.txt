@@ -4,6 +4,8 @@ project(Formula
         VERSION 1.0
         DESCRIPTION "The Formula Interpreter")
 
+set(CMAKE_CXX_STANDARD 20)
+
 add_executable(formula
                src/formula.cpp
                src/parser/ast.cpp
