@@ -47,3 +47,7 @@ You can specify how many times the calculation should be repeated using the `--r
 echo '1 + 1' | ./build/formula --repeated=100
 # the result is `200`
 ```
+
+## Performance
+
+The following graph shows the execution time when the `--repeated` value is increased from 10 to 10,000,000 with and without the `--useJIT` option enabled.
