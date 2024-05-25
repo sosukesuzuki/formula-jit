@@ -51,3 +51,5 @@ echo '1 + 1' | ./build/formula --repeated=100
 ## Performance
 
 The following graph shows the execution time when the `--repeated` value is increased from 10 to 10,000,000 with and without the `--useJIT` option enabled.
+
+![](./perf_graph.jpg)
